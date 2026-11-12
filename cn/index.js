@@ -438,66 +438,71 @@ export async function apply(ctx, config) {
 		} catch {
 			clearInterval(timer);
 		}
-		// Settings-card status route (loopback-only).
-		try {
-			const webServer = ctx.get("webServer");
-			if (webServer === undefined) throw new Error("webServer service unavailable");
-			ctx.effect(() => {
-				const dispose = webServer.register({
-					kind: "exact",
-					path: "/plugins/dsh-model-dock/qoder-cn/status",
-					handler: async (req, res) => {
-						if (req.method !== "GET") { writeJson(res, 405, { error: "method not allowed" }); return; }
-						if (!(hostIsLoopback(req.headers.host) && originIsLoopback(req.headers.origin))) {
-							writeJson(res, 403, { error: "request-not-trusted" });
-							return;
-						}
-						try {
-							const authStatus = await store.status();
-							writeJson(res, 200, {
-								...authStatus,
-								provider: QODER_PROVIDER,
-								detected: listQoderDataDirs().length > 0,
-								// Full rows, so the dock's lane can show the free model
-								// names and prices instead of only a count.
-								models: currentModels().map((info) => ({
-									id: info.id,
-									name: info.name,
-									contextWindow: info.contextWindow,
-									maxTokens: info.maxTokens,
-									priceFactor: info.priceFactor,
-									isReasoning: info.isReasoning,
-								})),
-							});
-						} catch (error) {
-							writeJson(res, 500, { error: safeMessage(error) });
-						}
-					},
-				});
-				const disposeRefresh = webServer.register({
-					kind: "exact",
-					path: "/plugins/dsh-model-dock/qoder-cn/refresh",
-					handler: async (req, res) => {
-						if (req.method !== "POST") { writeJson(res, 405, { error: "method not allowed" }); return; }
-						if (!(hostIsLoopback(req.headers.host) && originIsLoopback(req.headers.origin))) {
-							writeJson(res, 403, { error: "request-not-trusted" });
-							return;
-						}
-						try {
-							await refreshCatalog();
-							const authStatus = await store.status();
-							writeJson(res, 200, { ok: true, ...authStatus, models: currentModels().length });
-						} catch (error) {
-							writeJson(res, 500, { ok: false, error: safeMessage(error) });
-						}
-					},
-				});
-				return () => {
-					dispose();
-					disposeRefresh();
-				};
-			}, "dsh-model-dock: Qoder CN status route");
-		} catch {}
+		// Settings-card status route (loopback-only). 用 deferred injection，和宿主入口一致：
+		// 插件热重载时 webServer 偶尔还没就绪，一次性 ctx.get() 取不到就会静默丢掉
+		// 这条路由，前端只能看到 404（面板显示「通道未加载」）。
+		ctx.inject(["webServer"], (webCtx) => {
+				webCtx.effect(() => {
+					const dispose = webCtx.webServer.register({
+						kind: "exact",
+						path: "/plugins/dsh-model-dock/qoder-cn/status",
+						handler: async (req, res) => {
+							if (req.method !== "GET") { writeJson(res, 405, { error: "method not allowed" }); return; }
+							if (!(hostIsLoopback(req.headers.host) && originIsLoopback(req.headers.origin))) {
+								writeJson(res, 403, { error: "request-not-trusted" });
+								return;
+							}
+							try {
+								const authStatus = await store.status();
+								const detected = listQoderDataDirs().length > 0;
+								const payload = {
+									...authStatus,
+									provider: QODER_PROVIDER,
+									detected,
+									// Full rows, so the dock's lane can show the free model
+									// names and prices instead of only a count.
+									models: currentModels().map((info) => ({
+										id: info.id,
+										name: info.name,
+										contextWindow: info.contextWindow,
+										maxTokens: info.maxTokens,
+										priceFactor: info.priceFactor,
+										isReasoning: info.isReasoning,
+									})),
+								};
+								// 没装桌面端时「读不到登录文件」是预期状态，不是故障：
+								// 保留 detected:false，但不把上游的报错文本渲染成红色。
+								if (payload.detected !== true) delete payload.error;
+								writeJson(res, 200, payload);
+							} catch (error) {
+								writeJson(res, 500, { error: safeMessage(error) });
+							}
+						},
+					});
+					const disposeRefresh = webCtx.webServer.register({
+						kind: "exact",
+						path: "/plugins/dsh-model-dock/qoder-cn/refresh",
+						handler: async (req, res) => {
+							if (req.method !== "POST") { writeJson(res, 405, { error: "method not allowed" }); return; }
+							if (!(hostIsLoopback(req.headers.host) && originIsLoopback(req.headers.origin))) {
+								writeJson(res, 403, { error: "request-not-trusted" });
+								return;
+							}
+							try {
+								await refreshCatalog();
+								const authStatus = await store.status();
+								writeJson(res, 200, { ok: true, ...authStatus, models: currentModels().length });
+							} catch (error) {
+								writeJson(res, 500, { ok: false, error: safeMessage(error) });
+							}
+						},
+					});
+					return () => {
+						dispose();
+						disposeRefresh();
+					};
+				}, "dsh-model-dock: Qoder CN status route");
+		});
 	} catch (error) {
 		logger.error("dsh-qoder-connect: Qoder provider registration failed", error);
 		shim.close();

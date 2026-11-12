@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.8.7 — fork
+
+### 修复
+
+- **Qoder 国内版通道重载后丢路由**：`cn/index.js` 用一次性的 `ctx.get("webServer")`
+  取服务，插件热重载时 webServer 还没就绪就拿不到，且被 `catch {}` 静默吞掉，
+  于是 `/plugins/dsh-model-dock/qoder-cn/status` 变 404，面板显示「通道未加载」。
+  改为和宿主入口一致的 `ctx.inject(["webServer"], …)` 延迟注入。
+- **未安装 Qoder / Qoder 国内版时仍然报红**：未装桌面端、也没有现成令牌时，
+  「找不到登录文件」是预期状态。`lib/qoder.js` 的 `status()` 现在只在真正有凭据
+  来源（已装 App 或已有令牌）时才带 `error`；`cn` 的状态路由在 `detected: false`
+  时不再回错误文本。
+
 ## 0.8.6 — fork
 
 ### 修复
