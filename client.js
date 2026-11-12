@@ -734,7 +734,9 @@ window.__ModuleLoader__.load({
     }
 
     const dockCss = `
-      .md-page{height:100%;overflow:auto;padding:28px 32px 44px;color:var(--dsw-alias-label-primary,#1f2329);background:var(--dsw-alias-bg-base,#fff)}
+      /* 顶部留白要躲开 shell 右上角的悬浮层（自选行情条等）：面板内容直接铺在
+         主区域顶部，28px 会让标题行和悬浮条叠在一起，抬到 56px 才安全。 */
+      .md-page{height:100%;overflow:auto;padding:56px 32px 44px;color:var(--dsw-alias-label-primary,#1f2329);background:var(--dsw-alias-bg-base,#fff)}
       .md-wrap{max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
       .md-hero{display:flex;align-items:flex-start;gap:14px}
       .md-logo{width:44px;height:44px;flex:none;display:flex;align-items:center;justify-content:center;border-radius:13px;color:#fff;background:linear-gradient(135deg,#5b6cff,#22c3d6);box-shadow:0 6px 18px rgba(59,91,255,.22)}
@@ -793,7 +795,7 @@ window.__ModuleLoader__.load({
       .md-skeleton{height:96px;border-radius:14px;border:.5px solid var(--dsw-alias-border-l1,#ebebee);background:linear-gradient(100deg,var(--dsw-alias-bg-layer-1,#fff) 30%,var(--dsw-alias-bg-layer-2,#f4f4f6) 50%,var(--dsw-alias-bg-layer-1,#fff) 70%);background-size:220% 100%;animation:md-shimmer 1.4s linear infinite}
       @keyframes md-shimmer{from{background-position:120% 0}to{background-position:-120% 0}}
       @media (prefers-reduced-motion:reduce){.md-skeleton{animation:none}}
-      @media (max-width:720px){.md-page{padding:20px 16px 32px}.md-stats{grid-template-columns:1fr 1fr}}
+      @media (max-width:720px){.md-page{padding:52px 16px 32px}.md-stats{grid-template-columns:1fr 1fr}}
     `;
 
     /** One lane's free-model list; paid rows appear only when asked for. */
