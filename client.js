@@ -746,9 +746,6 @@ window.__ModuleLoader__.load({
       .md-btn:disabled{opacity:.5;cursor:default}
       .md-btn.md-primary{background:var(--dsw-alias-brand-primary,#3b5bff);border-color:transparent;color:#fff}
       .md-btn.md-primary:hover{filter:brightness(1.05)}
-      .md-btn.md-report{border-color:var(--dsw-alias-state-error-primary,#bd4747);color:var(--dsw-alias-state-error-primary,#bd4747)}
-      .md-btn.md-report:hover{background:rgba(189,71,71,.07)}
-      .md-report-hint{font-size:11px;line-height:1.5;color:var(--dsw-alias-label-tertiary,#8a8f98);margin-top:2px}
       .md-gateway{border:.5px solid var(--dsw-alias-border-l2,#e3e4e8);border-radius:14px;background:var(--dsw-alias-bg-layer-2,#f7f7f9);padding:16px;display:flex;flex-direction:column;gap:10px}
       .md-gateway-head{display:flex;align-items:center;gap:8px}
       .md-gw-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
@@ -1081,7 +1078,7 @@ window.__ModuleLoader__.load({
       const connected = connectedLanes.length;
       const lastCheck = connectedLanes.reduce((latest, entry) => Math.max(latest, Number(entry.lane.catalog?.fetchedAt) || 0), 0);
 
-      /** Copy the lane state (no tokens) for a bug report from another machine. */
+      /** Copy the lane state (no tokens) for offline troubleshooting. */
       const copyDiagnostics = React.useCallback(async () => {
         const report = {
           version: status?.version,
