@@ -131,15 +131,22 @@ const MAC_KEYCHAIN_SERVICES = [
 function ensureMacKey(keyPath) {
 	if (existsSync(keyPath)) return true;
 	for (const service of MAC_KEYCHAIN_SERVICES) {
+		// 先只查条目属性（不读密码、不弹授权框），不存在就跳过；命中后只做一次
+		// `-w`，失败即止——每个名字都试一遍会让用户连吃好几个授权框。
 		try {
-			const password = execFileSync("security", ["find-generic-password", "-s", service, "-w"], { encoding: "utf8", timeout: 5000 }).trim();
-			if (password === "") continue;
+			execFileSync("security", ["find-generic-password", "-s", service], { encoding: "utf8", timeout: 5000 });
+		} catch {
+			continue;
+		}
+		try {
+			const password = execFileSync("security", ["find-generic-password", "-s", service, "-w"], { encoding: "utf8", timeout: 20000 }).trim();
+			if (password === "") return false;
 			const key = pbkdf2Sync(password, "saltysalt", 1003, 16, "sha1");
 			mkdirSync(dirname(keyPath), { recursive: true });
 			writeFileSync(keyPath, key, { mode: 0o600 });
 			return true;
 		} catch {
-			// Try the next service name.
+			return false;
 		}
 	}
 	return false;

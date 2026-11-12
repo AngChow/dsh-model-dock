@@ -105,22 +105,60 @@ function macOsCryptKey(userDataDir) {
     'QwenWorkCanary Safe Storage',
   ]
   for (const name of names) {
+    // 先只查条目属性（不读密码，不触发授权框）。条目不存在就直接跳过——
+    // 上游的写法是每个候选名都 `-w` 试一遍，人慢一步或点了「允许」就会连弹
+    // 最多四个授权框，这是「有的人弹好几次」的主要来源。
+    let exists = false
     try {
-      const password = execFileSync('security', ['find-generic-password', '-s', name, '-w'], { encoding: 'utf8', timeout: 5000 }).trim()
+      execFileSync('security', ['find-generic-password', '-s', name], { encoding: 'utf8', timeout: 5000 })
+      exists = true
+    } catch (error) {
+      lastKeychainError = `Keychain item "${name}" unavailable`
+      void error
+    }
+    if (!exists) continue
+    try {
+      // 20s：给人留点反应时间（上游 5s，人还在看弹窗程序就已经放弃并换下一个名字了）
+      const password = execFileSync('security', ['find-generic-password', '-s', name, '-w'], { encoding: 'utf8', timeout: 20_000 }).trim()
       if (password !== '') return pbkdf2Sync(password, 'saltysalt', 1003, 16, 'sha1')
     } catch (error) {
       lastKeychainError = `Keychain item "${name}" unavailable`
       void error
     }
+    // 条目存在但拿不到密码：说明授权框被拒绝或超时。**到此为止**，
+    // 不再换下一个候选名——继续试只会再弹一个框。
+    return undefined
   }
   return undefined
 }
 
+/**
+ * 已解出的 os_crypt 主密钥（按 userData 目录缓存）。
+ *
+ * 主密钥只在 App 重建钥匙串条目时才变，token 轮换不影响它。缓存之后，
+ * 每发一条消息、每刷一次状态都不再访问钥匙串，系统最多在本次进程里问一次。
+ */
+const osCryptKeyCache = new Map()
+
+/** 丢掉缓存；解密失败时调用，让下一次读取重新走钥匙串。 */
+export function invalidateOsCryptKey(userDataDir) {
+  if (userDataDir === undefined) osCryptKeyCache.clear()
+  else osCryptKeyCache.delete(userDataDir)
+}
+
 export function readOsCryptKey(userDataDir, options = {}) {
   const platform = options.platform ?? process.platform
-  // macOS Chromium keeps no Local State key: the OSCrypt password is the
-  // Keychain item the app created, and the file itself is AES-128-CBC.
-  if (platform === 'darwin') return macOsCryptKey(userDataDir)
+  const useCache = options.useCache !== false
+  if (useCache) {
+    const hit = osCryptKeyCache.get(userDataDir)
+    if (hit !== undefined) return hit
+  }
+  const key = platform === 'darwin' ? macOsCryptKey(userDataDir) : dpapiOsCryptKey(userDataDir, platform)
+  if (key !== undefined && useCache) osCryptKeyCache.set(userDataDir, key)
+  return key
+}
+
+function dpapiOsCryptKey(userDataDir, platform) {
   const localStatePath = join(userDataDir, 'Local State')
   let parsed
   try {
@@ -404,7 +442,7 @@ export function readCredentialFromDir(userDataDir, options = {}) {
   }
 
   const candidates = [AUTH_V2_FILENAME, AUTH_V1_FILENAME]
-  const key = readOsCryptKey(userDataDir, { platform })
+  let key = readOsCryptKey(userDataDir, { platform })
   if (key === undefined) {
     failures.push({
       path: join(userDataDir, 'Local State'),
@@ -430,7 +468,17 @@ export function readCredentialFromDir(userDataDir, options = {}) {
       failures.push({ path: filePath, reason: 'unreadable', message: messageOf(error) })
       continue
     }
-    const plain = decryptChromiumAesGcm(container, key, { platform })
+    let plain = decryptChromiumAesGcm(container, key, { platform })
+    if (plain === undefined && key !== undefined) {
+      // 缓存里的主密钥解不开：App 可能重建过 Safe Storage 条目。
+      // 丢掉缓存重取一次；重取失败（或密钥没变）就按解不开处理，不再追问。
+      invalidateOsCryptKey(userDataDir)
+      const freshKey = readOsCryptKey(userDataDir, { platform })
+      if (freshKey !== undefined && !freshKey.equals(key)) {
+        key = freshKey
+        plain = decryptChromiumAesGcm(container, key, { platform })
+      }
+    }
     if (plain === undefined) {
       failures.push({ path: filePath, reason: 'encrypted', message: 'the AES-GCM container did not authenticate' })
       continue
