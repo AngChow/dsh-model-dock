@@ -1,4 +1,7 @@
-# 安全模型坞 · Secure Model Dock
+# 待薅的羊毛 · Freebie Dock
+
+> 本地维护分支。上游原名「安全模型坞 / Secure Model Dock」（`dsh-model-dock`），
+> 包名、provider id（`safe_*`）和路由均未改动，只换了界面上的名字。
 
 把本机 AI 桌面客户端里**当前免费**的模型汇总到 DeepSeek Harness 的侧边栏里：自动发现、实时判断免费状态、一键开关，然后直接在 DSH 的模型选择器里调用。
 
@@ -37,7 +40,7 @@ WorkBuddy / Qoder 桌面客户端（已登录）
         ▼
 DSH 插件（本机）── 拉取实时模型目录 ──▶ 判断哪些倍率是 x0.00（免费）
         │
-        ├── 侧边栏「安全模型坞」：免费模型清单 / 开关 / 刷新 / 测试
+        ├── 侧边栏「待薅的羊毛」：免费模型清单 / 开关 / 刷新 / 测试
         └── DSH 模型选择器：WorkBuddy / WorkBuddy AI / Qoder 三个 provider
 ```
 
@@ -53,7 +56,7 @@ Qoder 的网关是 COSY 协议（RSA + AES 会话密钥、MD5 请求签名、自
 ## 使用
 
 1. 在 DSH 里安装本插件（`plugin_manager` → `install_bundle`，目标为本目录）。
-2. 左侧栏出现「安全模型坞」图标，点开即可看到：
+2. 左侧栏出现「待薅的羊毛」图标，点开即可看到：
    - 已连接的客户端与账号；
    - 当前免费模型（名称、ID、上下文窗口）；
    - 每行勾选控制是否出现在 DSH 的模型选择器里。
@@ -172,6 +175,61 @@ export ANTHROPIC_MODEL=safe_workbuddy-global/hy4free
 结果：本包内不再存在任何向第三方发送数据的代码路径。上游原有的其它能力
 （WorkBuddy / Qoder 国际版与国内版 / 千问办公三条车道、自动修复、本地
 OpenAI 兼容网关）保持不变。
+
+界面名称改为「待薅的羊毛 / Freebie Dock」（`package.json` 的 `displayName`、
+`client.js` 的 `L.panel`、`locale/*.json` 的 `meta.title`、自动修复提示词里的
+插件自称）。包名 `dsh-model-dock`、provider id `safe_*`、路由 `/plugins/dsh-model-dock/*`
+都没变，所以已装环境升级时不需要改配置。
+
+## 本地安装与更新
+
+约定：**这个仓库的源码目录就是安装源**，不使用 tgz。
+
+```bash
+git clone https://github.com/AngChow/dsh-model-dock.git ~/workspace_codex/dsh-model-dock
+```
+
+在 DSH 里装（插件管理器的 `install_bundle`，目标为本目录）：
+
+```
+file:/Users/<你>/workspace_codex/dsh-model-dock
+```
+
+### 改完代码怎么让本地生效
+
+pnpm 是把文件**硬链接**进 profile 的，不是软链，所以改源码**不会**自动生效：
+
+```bash
+# 两种方式，任选其一
+# 1) 在 DSH 插件面板里对该插件重新安装 / 重装一次
+# 2) 命令行：
+cd ~/.dsh/profiles/<profile>     # 例如 desktop
+pnpm install
+```
+
+然后：
+
+- **宿主侧改动**（`lib/`、`qwenwork*/`、`cn/`）→ 在插件管理器里把对应 entry
+  关一次再打开即可热重载，不必重启 App；
+- **客户端改动**（`client.js`、`locale/`）→ 刷新页面。
+- 改了 `package.json` 的 `version` 而没动代码时也要重装一次，否则面板显示的仍是旧版本号。
+
+### 千问办公车道需要一次钥匙串授权
+
+macOS 上 `QwenWorkCN Safe Storage` 这条目默认只授权给千问办公自己，DSH 宿主进程
+直接读会被拒（表现为 `Keychain item "QwenWorkCN Safe Storage" unavailable`，
+目录退回 fallback）。在面板里点「授权钥匙串」并在系统弹窗点「始终允许」，或手动：
+
+```bash
+security find-generic-password -s "QwenWorkCN Safe Storage" -w
+```
+
+授权后把该车道关一次再打开（`include:llm-qwenwork`）让它重新读凭据，状态里
+`catalogSource` 会从 `fallback` 变成 `live`。
+
+> 注意：插件的 token 续期会**回写** `~/Library/Application Support/QwenWorkCN/auth-v2.dat`
+> （上游千问办公的 refresh token 用过即轮换，不回写就会失效）。用插件时建议退出
+> 千问办公桌面端，避免两边同时刷新、互相把对方的 refresh token 作废。
 
 ## 关于免费
 

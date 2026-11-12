@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.8.5 — fork
+
+### 改名
+
+- 界面名称由「安全模型坞 / Secure Model Dock」改为「待薅的羊毛 / Freebie Dock」。
+  改动点：`package.json` 的 `displayName`、`client.js` 的 `L.panel`、
+  `locale/{zh,en}.json` 的 `meta.title`、`lib/repair.js` 里自动修复提示词的插件自称。
+  包名、provider id（`safe_*`）、路由前缀均未改动，已装环境无需改配置。
+
+### 文档
+
+- README 增加「本地安装与更新」：源码目录即安装源、pnpm 用硬链接所以改完要重装、
+  宿主侧改动用 entry 开关热重载、客户端改动刷新页面、钥匙串授权与 token 回写说明。
+
 ## 0.8.4 — fork
 
 基于上游 `dsh-model-dock@0.8.3`（sun，MIT）。
