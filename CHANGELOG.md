@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.8.8 — fork
+
+### 新增
+
+- `tools/check-keychain.mjs` + `npm run check:keychain`：守卫脚本，禁止包里出现
+  `Chrome Safe Storage` / `Chromium Safe Storage` 服务名或 Chrome 用户目录引用
+  （上游 0.7.8 的回退项）。用 0.7.8 实测可命中两处，用当前版本与已安装副本均为干净。
+- README 增加排障说明：钥匙串弹窗里写的是哪条条目就是哪条，
+  `QwenWorkCN Safe Storage` 属正常首次授权，`Chrome Safe Storage` 说明装的是旧版本。
+
 ## 0.8.7 — fork
 
 ### 修复

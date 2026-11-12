@@ -214,6 +214,31 @@ pnpm install
 - **客户端改动**（`client.js`、`locale/`）→ 刷新页面。
 - 改了 `package.json` 的 `version` 而没动代码时也要重装一次，否则面板显示的仍是旧版本号。
 
+### 钥匙串弹窗要求「Chrome Safe Storage」怎么办
+
+**那是旧版本。** 上游 `0.7.8` 及更早在 macOS 上把 `Chrome Safe Storage` 当作兜底
+候选，而那个条目是 Chromium 系加密全部 cookie 与保存密码的主密钥。`0.8.3` 已删除，
+本仓库自 `0.8.4` 起也不含任何 Chrome 引用；本版本只会请求 `QwenWorkCN Safe Storage`。
+
+在任意安装目录核对（3 秒）：
+
+```bash
+node -p "require('<profile>/node_modules/dsh-model-dock/package.json').version"   # 应为 0.8.4+
+grep -rn "Chrome Safe Storage" <profile>/node_modules/dsh-model-dock || echo "干净"
+```
+
+源码目录里还可以跑守卫脚本（命中即退出码 1）：
+
+```bash
+node tools/check-keychain.mjs                 # 扫当前仓库
+node tools/check-keychain.mjs <安装目录>       # 扫已安装的副本
+```
+
+> 注意：**首次读取 `QwenWorkCN Safe Storage` 仍然会弹一次系统授权框**，这是
+> Electron Safe Storage 的机制决定的（跨进程读别家 App 的主密钥必经），和 Chrome
+> 无关。弹窗里写的是哪条条目，就是哪条——看到 `QwenWorkCN Safe Storage` 是正常的，
+> 看到 `Chrome Safe Storage` 才是装错了版本。
+
 ### 千问办公车道需要一次钥匙串授权
 
 macOS 上 `QwenWorkCN Safe Storage` 这条目默认只授权给千问办公自己，DSH 宿主进程
