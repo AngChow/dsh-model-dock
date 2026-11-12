@@ -223,8 +223,11 @@ pnpm install
 在任意安装目录核对（3 秒）：
 
 ```bash
-node -p "require('<profile>/node_modules/dsh-model-dock/package.json').version"   # 应为 0.8.4+
-grep -rn "Chrome Safe Storage" <profile>/node_modules/dsh-model-dock || echo "干净"
+# 1) 版本：应为 0.8.4+（更早的 0.7.x 才有 Chrome 兜底）
+node -p "require('<profile>/node_modules/dsh-model-dock/package.json').version"
+
+# 2) 代码里不该有这条引用（tools/ 是守卫脚本自身、README 是说明文字，跳过）
+grep -rn "Chrome Safe Storage" --include=*.js <profile>/node_modules/dsh-model-dock | grep -v '/tools/' || echo "干净"
 ```
 
 源码目录里还可以跑守卫脚本（命中即退出码 1）：
