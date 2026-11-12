@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.10 — fork
+
+版本号递增（无代码改动）。相对 0.8.9 只改了 `package.json` 的 `version`。
+
 ## 0.8.9 — fork
 
 ### 修复
