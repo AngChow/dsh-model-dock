@@ -1,0 +1,81 @@
+{
+  "name": "dsh-model-dock",
+  "displayName": "安全模型坞",
+  "description": "把本机 AI 桌面客户端（WorkBuddy、Qoder 国际版/国内版、千问办公）的模型汇总到 DSH：免费模型自动判断，千问办公按上游实时目录路由全部模型（模型与倍率同源） — desktop AI clients docked into DSH.",
+  "icon": "./assets/icon.svg",
+  "version": "0.8.4",
+  "author": "sun",
+  "contributors": [
+    "sunzhengnan (dsh-workbuddy-connect, MIT)",
+    "AngChow (fork maintainer)"
+  ],
+  "keywords": [
+    "dsh-plugin",
+    "deepseek-harness",
+    "free-models",
+    "model-provider",
+    "workbuddy",
+    "workbuddy-ai",
+    "codebuddy",
+    "qoder"
+  ],
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "default": "./client.js"
+    },
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./assets/icon.svg",
+    "./cn": "./cn/index.js",
+    "./qwenwork": "./qwenwork/index.js",
+    "./qwenwork-direct": "./qwenwork-direct/index.js"
+  },
+  "files": [
+    "lib",
+    "client.js",
+    "cordis.patch.yml",
+    "locale",
+    "assets",
+    "README.md",
+    "NOTICE.md",
+    "LICENSE",
+    "cn",
+    "qwenwork",
+    "qwenwork-direct"
+  ],
+  "engines": {
+    "dsh": ">=0.2.0-rc.2",
+    "node": "^22.19.0 || >=24.0.0"
+  },
+  "license": "MIT",
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-slots"
+      ]
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-llm": ">=0.2.0-rc.2",
+    "@deepseek-ai/dsh-llm-pi-ai": ">=0.2.0-rc.2",
+    "@earendil-works/pi-ai": ">=0.85.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AngChow/dsh-model-dock.git"
+  },
+  "bugs": {
+    "url": "https://github.com/AngChow/dsh-model-dock/issues"
+  },
+  "homepage": "https://github.com/AngChow/dsh-model-dock#readme"
+}

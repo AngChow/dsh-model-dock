@@ -1,0 +1,24 @@
+# dsh-model-dock bundle patch.
+#
+# One row registers both halves: the host's client-module scan resolves the
+# row's specifier to this package root and reads `dsh.client` from
+# package.json, so the left-rail console loads from the same row that mounts
+# the model providers. The plugin registers the `workbuddy` /
+# `workbuddy-global` LLM routes itself (via ctx.llm.registerAdapter); this patch
+# only makes Cordis load the bundle.
+#
+# It deliberately does NOT touch the profile's current default model — a fresh
+# install adds the model groups without changing what the user is currently
+# talking to.
+- insert:
+    - id: llm-model-dock
+      name: dsh-model-dock
+    # Qoder CN (qoder.com.cn) is a separate host lane: different data
+    # directories, gateway and OSCrypt key material. It registers the
+    # `qoder-cn` route, so the dock's panel can show both regions.
+    - id: llm-qoder-cn
+      name: dsh-model-dock/cn
+    # QwenWork (千问办公) is a paid ACP agent, not a model API: its lane owns
+    # the session bridge and exposes every model tier it can route.
+    - id: llm-qwenwork
+      name: dsh-model-dock/qwenwork-direct
