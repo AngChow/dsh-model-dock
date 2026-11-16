@@ -1,5 +1,56 @@
 # Changelog
 
+## 0.8.12 — fork
+
+### 修复
+
+并行工具调用被并成一个，整轮以 `MALFORMED_RESPONSE` 中断（千问办公车道）：
+
+- **现象**：模型一轮里发两个工具调用时，DSH 收到的是一个调用、参数是
+  `{"name": "dsh-doc"}{"command": "ls -la ~/.dsh"}` 这种两段 JSON 粘在一起，
+  `JSON.parse` 在第一个 `}` 后撞见 `{` → `MALFORMED_RESPONSE` → 该轮立即结束
+  （该错误码不在默认重试列表，所以表现为「啪一下断掉」）。单工具轮不受影响，
+  于是看起来像偶发。
+- **根因**：上游把同一轮的多个 `tool_call` 分片都标成 `index: 0`，而 pi-ai 的
+  `ensureToolCallBlock()` 按 OpenAI 规范用 `index` 认块——index 一命中就复用同一块，
+  于是第二个调用的 `id`／`name` 被丢掉、`arguments` 被拼到第一个后面。
+  shim 原本是「原样透传（含 index/id）」，等于把畸形 index 直接喂给下游。
+- **修法**：新增 `qwenwork-direct/lib/tool-call-index.js`，在 shim 下发前把本请求的
+  `tool_calls` 归一化成一一对应的 index。认槽顺序：①见过的 `id` 直接续写；
+  ②上游 `index` 命中且该槽没被**另一个 id** 占用、参数也没收尾 → 续写；
+  ③其余分配新槽（0、1、2…）。另加两条兜底：上游不给 `id` 或给字面量 `"null"`
+  时补一个**本请求内唯一**的合成 id（pi-ai 在 index 未命中时会拿 id 兜底认块，
+  两个调用共用 `"null"` 照样会被并回去）；槽累积参数已是完整 JSON 却又来非空分片
+  时开新槽。
+- **兼容性**：合规上游走**恒等路径**（index 本来一一对应、id 齐全时原对象返回），
+  行为不变，只改写畸形流。
+
+实测：新增 `npm run check:tool-call-index`，12 项自检全绿——含事故帧 1:1 复现
+（不归一化 → 并成 1 块且 JSON 非法；归一化 → 2 块各自合法）、分片流 + 同 index、
+合规上游 index 一字不改、单调用多分片不被误拆、id 缺失 / `id: "null"`、同一 delta
+内两个调用。全机日志侧证据：3 个会话 6 次中断全部落在本车道，且本车道上从未出现过
+「一轮 ≥2 个工具调用块」，同期 GLM 车道并行调用正常。
+
+## 0.8.11 — fork
+
+### 修复
+
+「千问办公」整个分组从模型选择器里消失（报
+`adapter returned invalid or duplicate model metadata for provider "safe_qwenwork"`）：
+
+- **根因**：上游目录新增了 key 字面量为 `qwen3.8-flash` 的模型（「Qwen3.8-Flash」，x0.1），
+  而 `flash`（「标准」，x0.1）的历史对外别名正是 `qwen3.8-flash`。两条目录映射成同一个
+  对外 id，DSH 的 `listModels()` 判 `INVALID_CATALOG`，整条 `safe_qwenwork` 路由被摘掉——
+  面板仍显示已连接，用户看到的是「模型都没了」。
+- **别名让位真模型**（`qwenwork-direct/lib/catalog.js` 的 `releaseDisplayAliases()`）：
+  上游既然下发了这个 key，就以它为准，`flash` 退回 `flash` 作对外 id；上游没有该 key 时
+  别名照旧生效（已持久化的旧选择不失效）。
+- **对外 id 去重兜底**（`dedupeModelIds()`）：上游重复下发同一个 key 时保留第一条，不再把整条
+  路由拖成无效目录；`qwenwork-direct/index.js` 的目录视图与状态卡片也过一遍去重。
+
+实测（2026-11-16 线上目录 13 条）：修正前重复 id `qwen3.8-flash` ×2 → 修正后 13 条目录
+13 个唯一 id，`标准` = `flash`、`Qwen3.8-Flash` = `qwen3.8-flash` 各归各。
+
 ## 0.8.10 — fork
 
 版本号递增（无代码改动）。相对 0.8.9 只改了 `package.json` 的 `version`。

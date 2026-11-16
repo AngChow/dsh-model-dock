@@ -34,6 +34,7 @@ import {
   encodeOpenAiChunk,
   SSE_DONE,
 } from './sse.js';
+import { createToolCallIndexNormalizer } from './tool-call-index.js';
 import { buildInferBody, createSignerSession } from './signer-session.js';
 import { resolveGatewayEndpoint, relaxTlsForVpc } from './endpoint.js';
 import { FALLBACK_QWENWORK_MODELS, normalizeModelKey } from './models.js';
@@ -767,6 +768,15 @@ export function createChatShimHandler(deps) {
     let thinkingChars = 0;
     /** 本回合是否已下发工具调用分片（有它就算有产出）。 */
     let toolCallsEmitted = false;
+    /**
+     * 工具调用 index 归一化器（**每请求一份**）。
+     *
+     * 上游会把同一轮的多个 tool_call 塞进同一个 `index`，而 pi-ai 按 index 认块，
+     * 结果第二个调用的 name 被丢、arguments 被拼进第一个，下游 JSON.parse 失败 →
+     * `MALFORMED_RESPONSE` → 整轮中止。归一化后 index 与调用一一对应。
+     * 合规上游走恒等路径，行为不变。详见 ./tool-call-index.js。
+     */
+    const normalizeToolCallIndexes = createToolCallIndexNormalizer();
     let lastChunkAt = null;
     let upstreamChunks = 0;
     let upstreamBytes = 0;
@@ -864,6 +874,8 @@ export function createChatShimHandler(deps) {
           thinkingChars += frame.delta.reasoning.length;
         }
         if (Array.isArray(frame.delta.tool_calls) && frame.delta.tool_calls.length > 0) {
+          // 必须先归一化再下发：上游可能给两个调用同一个 index（见 ./tool-call-index.js）。
+          frame.delta.tool_calls = normalizeToolCallIndexes(frame.delta.tool_calls);
           toolCallsEmitted = true;
         }
         write(encodeOpenAiChunk({ model: modelKey, id: chunkId, created, delta: frame.delta }));
