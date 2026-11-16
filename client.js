@@ -26,55 +26,20 @@ window.__ModuleLoader__.load({
     const QWEN_RESTART_PATH = `${BASE}/qwenwork/restart`;
 
     const zh = {
-      title: "WorkBuddy",
-      subtitle: "接入 WorkBuddy 模型（国际版 / 国内版）。",
       signIn: "登录 WorkBuddy",
-      importDesktop: "从桌面 App 导入",
-      signInHint: "点击后在新标签页打开 WorkBuddy 授权页，完成登录后回到这里。",
       waiting: "等待授权中…",
       openLogin: "打开授权页面",
-      signedIn: "已登录",
-      signedOut: "未登录",
       logout: "退出登录",
-      nickname: "账号",
-      expires: "凭据有效期",
-      domain: "域",
-      catalog: "模型目录",
-      catalogLive: "实时列表",
-      catalogSaved: "上次保存的列表",
-      catalogFallback: "内置列表",
-      catalogUpdated: "更新于",
-      catalogError: "最近刷新失败：",
-      refresh: "刷新目录",
-      refreshing: "刷新中…",
-      models: "模型开关",
-      modelsHint: "关闭的模型从 DSH 模型选择器中隐藏。",
       search: "搜索模型 / ID",
       enableAll: "全部开启",
       disableAll: "全部关闭",
-      freeTag: "免费",
-      rateTag: "倍率",
-      ctxTag: "上下文",
-      imgTag: "图片",
-      effortTag: "推理",
-      showPaid: "在模型选择器中显示付费模型",
-      showPaidHint: "默认关闭：只有免费模型会出现在 DSH 的模型选择器里。",
       maxWindow: "使用上游声明的最大上下文窗口",
       maxWindowHint: "关闭时按上游的默认窗口发送请求（如 300K），开启时按最大窗口（如 1M）。",
       credits: "额度",
       creditsNone: "暂无额度信息",
-      creditsRemain: "剩余",
       creditsTotal: "总量",
-      creditsUnlimited: "不限",
       creditsEnd: "到期",
       creditsError: "额度读取失败：",
-      identity: "客户端身份",
-      errorLoad: "无法读取连接器状态",
-      retry: "重试",
-      failed: "操作失败",
-      signedOutHint: "登录后才会出现模型分组。",
-      sessionStale: "上游拒绝了这份凭据：桌面 App 换过会话了。点「从桌面 App 导入」重新接入，或重新登录。",
-      updateTitle: "插件更新",
       updateCheck: "检查更新",
       updateChecking: "检查中…",
       updateAvailable: "有新版本",
@@ -83,7 +48,6 @@ window.__ModuleLoader__.load({
       updateRunning: "正在更新…",
       updateLocalCopy: "这个安装来自本地目录，没有可比较的远程仓库。",
       updateUnknown: "暂时查不到远程状态：",
-      updateHint: "git 版本可以在这里一键检查并更新到上游最新提交；DSH 自己只给官方插件显示「更新」。",
       updateDone: "已更新，重启 App 后生效。",
       accountRestricted: "上游已限制这个账号（不是凭据问题，重新登录或重新导入都无效）。只有申诉才能解除：在 WorkBuddy 里提交反馈。",
       tabGlobal: "国际版",
@@ -118,27 +82,6 @@ window.__ModuleLoader__.load({
       dockGatewayCopyClaude: "复制 Claude Code 配置",
       dockGatewayAnthropic: "Anthropic",
       dockGatewayModelsTitle: "模型清单",
-      dockGateway: "Local API",
-      dockGatewaySub: "Expose the docked models as an OpenAI-compatible API to local tools (Cline / Roo / Continue / OpenAI SDK). Binds 127.0.0.1 only and requires a key.",
-      dockGatewayEnable: "Enable local API",
-      dockGatewayEndpoint: "Endpoint",
-      dockGatewayKey: "API key",
-      dockGatewayShow: "Show",
-      dockGatewayHide: "Hide",
-      dockGatewayCopy: "Copy",
-      dockGatewayRegenerate: "Regenerate",
-      dockGatewayPort: "Port",
-      dockGatewaySave: "Save",
-      dockGatewayModels: "models",
-      dockGatewayRunning: "running",
-      dockGatewayStopped: "disabled",
-      dockGatewayCopied: "Copied",
-      dockGatewayHint: "Model ids are <provider>/<model>, e.g. safe_workbuddy-global/hy4free.",
-      dockGatewayError: "Local API error",
-      dockGatewayClaude: "Both OpenAI and Anthropic: OpenAI uses /v1; Claude Code uses ANTHROPIC_BASE_URL + ANTHROPIC_AUTH_TOKEN + ANTHROPIC_MODEL.",
-      dockGatewayCopyClaude: "Copy Claude Code config",
-      dockGatewayAnthropic: "Anthropic",
-      dockGatewayModelsTitle: "Models",
       dockCatalogLive: "模型目录实时",
       dockCatalogUpdated: "更新于",
       dockCatalogFailed: "模型目录刷新失败",
@@ -152,25 +95,9 @@ window.__ModuleLoader__.load({
       dockCheckinAlready: "今天已签到",
       dockCheckinNone: "暂无签到活动",
       dockCheckinError: "签到失败",
-      dockCatalogLive: "Live catalog",
-      dockCatalogUpdated: "updated",
-      dockCatalogFailed: "Catalog refresh failed",
-      dockCatalogChecking: "Reading catalog",
-      dockCheckin: "Check in",
-      dockCheckinRunning: "Checking in…",
-      dockAutoCheckin: "Daily auto check-in",
-      dockAutoCheckinHint: "Claims Qoder's daily campaign benefit on the first connection of each day; availability is upstream-controlled.",
-      dockCheckinLast: "Last check-in",
-      dockCheckinClaimed: "claimed",
-      dockCheckinAlready: "already claimed today",
-      dockCheckinNone: "no campaign right now",
-      dockCheckinError: "check-in failed",
       dockKeychain: "授权钥匙串",
       dockKeychainHint: "点一下会等待 macOS 钥匙串弹窗；请在系统窗口里点「始终允许」，授权后会自动重试连接。",
       dockKeychainOk: "钥匙串已授权，正在重试连接…",
-      dockKeychain: "Authorize Keychain",
-      dockKeychainHint: "Waits for the macOS Keychain prompt; click “Always Allow” there and the lane reconnects.",
-      dockKeychainOk: "Keychain authorized — retrying the connection…",
       dockSignInQwen: "已检测到千问办公桌面版，但还没读到登录态；打开千问办公完成登录后刷新即可。这个车道会列出账号套餐可路由的全部模型（付费车道）。",
       dockSignInFirst: "连接这个客户端后会自动发现免费模型。",
       dockImport: "使用桌面版登录",
@@ -192,7 +119,7 @@ window.__ModuleLoader__.load({
       dockModelsHint: "勾选的模型会出现在 DSH 的模型选择器里。",
       dockDetected: "已检测到",
       dockEnabledCount: "个已启用",
-      dockDesktopOther: "桌面版当前登录的是另一个版本；这个车道可以在设置里单独登录。",
+      dockDesktopOther: "桌面版当前登录的是另一个版本；这个车道可以直接在这里登录。",
       dockTest: "测试",
       dockTesting: "测试中…",
       dockTestOk: "连接正常",
@@ -205,62 +132,27 @@ window.__ModuleLoader__.load({
       dockInstallQwen: "未检测到千问办公桌面版；安装并登录后会自动接入。",
       dockLaneUnavailable: "这个通道没有加载成功；请到插件管理器确认对应入口已启用。",
       dockInstalledNoApp: "未检测到桌面版，当前使用已有登录态。",
-      dockChannels: "支持渠道：WorkBuddy（国际版 / 国内版）、Qoder（国际版 / 国内版）、千问办公。未安装的渠道也会列在这里，标为「未安装」。",       dockRepair: "自动修复",
+      dockChannels: "支持渠道：WorkBuddy（国际版 / 国内版）、Qoder（国际版 / 国内版）、千问办公。未安装的渠道也会列在这里，标为「未安装」。",
+      dockRepair: "自动修复",
       dockRepairing: "修复中…",
       dockRepairRunning: "正在自动修复，请稍候…",
       dockRepairOk: "修复成功，车道已可用",
-      dockRepairFail: "自动修复未完成",
-      dockRepairNoModel: "没有可用的本地模型，已按固定顺序修复",     };
+      dockRepairFail: "自动修复未完成",     };
     const en = {
-      title: "WorkBuddy",
-      subtitle: "WorkBuddy models (Global / CN) in DSH.",
       signIn: "Sign in to WorkBuddy",
-      importDesktop: "Import from the desktop app",
-      signInHint: "Opens the WorkBuddy authorization page in a new tab; come back here when it is done.",
       waiting: "waiting for authorization…",
       openLogin: "Open the authorization page",
-      signedIn: "Signed in",
-      signedOut: "Signed out",
       logout: "Sign out",
-      nickname: "Account",
-      expires: "Credential expires",
-      domain: "Domain",
-      catalog: "Model catalog",
-      catalogLive: "live list",
-      catalogSaved: "saved list",
-      catalogFallback: "built-in list",
-      catalogUpdated: "updated",
-      catalogError: "last refresh failed: ",
-      refresh: "Refresh catalog",
-      refreshing: "Refreshing…",
-      models: "Model toggles",
-      modelsHint: "Disabled models are hidden from DSH's model picker.",
       search: "search models / id",
       enableAll: "Enable all",
       disableAll: "Disable all",
-      freeTag: "free",
-      rateTag: "rate",
-      ctxTag: "ctx",
-      imgTag: "image",
-      effortTag: "reasoning",
-      showPaid: "Show paid models in the model picker",
-      showPaidHint: "Off by default: only free models reach DSH's model picker.",
       maxWindow: "Use the upstream's maximum context window",
       maxWindowHint: "Off sends the upstream's default window (e.g. 300K); on sends the largest one (e.g. 1M).",
       credits: "Quota",
       creditsNone: "No quota information yet",
-      creditsRemain: "remaining",
       creditsTotal: "total",
-      creditsUnlimited: "unlimited",
       creditsEnd: "expires",
       creditsError: "Could not read the quota: ",
-      identity: "client identity",
-      errorLoad: "Cannot read connector status",
-      retry: "Retry",
-      failed: "Action failed",
-      signedOutHint: "The model group appears after you sign in.",
-      sessionStale: "The upstream refused this credential — the desktop app rotated its session. Press “Import from the desktop app” again, or sign in once more.",
-      updateTitle: "Plugin update",
       updateCheck: "Check for updates",
       updateChecking: "Checking…",
       updateAvailable: "Update available",
@@ -269,7 +161,6 @@ window.__ModuleLoader__.load({
       updateRunning: "Updating…",
       updateLocalCopy: "This install comes from a local path, so there is no remote to compare with.",
       updateUnknown: "Cannot read the remote right now: ",
-      updateHint: "For a git install this checks upstream and updates to its latest commit in one click; DSH itself only shows Update for official plugins.",
       updateDone: "Updated. Restart the app to load it.",
       accountRestricted: "The upstream has restricted this account — this is not a credential problem, so signing in or importing again will not help. Only an appeal lifts it: submit feedback in WorkBuddy.",
       tabGlobal: "Global",
@@ -283,6 +174,43 @@ window.__ModuleLoader__.load({
       dockLastCheck: "last check",
       dockFree: "free",
       dockNoFree: "No free model right now",
+      dockGateway: "Local API",
+      dockGatewaySub: "Expose the docked models as an OpenAI-compatible API to local tools (Cline / Roo / Continue / OpenAI SDK). Binds 127.0.0.1 only and requires a key.",
+      dockGatewayEnable: "Enable local API",
+      dockGatewayEndpoint: "Endpoint",
+      dockGatewayKey: "API key",
+      dockGatewayShow: "Show",
+      dockGatewayHide: "Hide",
+      dockGatewayCopy: "Copy",
+      dockGatewayRegenerate: "Regenerate",
+      dockGatewayPort: "Port",
+      dockGatewaySave: "Save",
+      dockGatewayModels: "models",
+      dockGatewayRunning: "running",
+      dockGatewayStopped: "disabled",
+      dockGatewayCopied: "Copied",
+      dockGatewayHint: "Model ids are <provider>/<model>, e.g. safe_workbuddy-global/hy4free.",
+      dockGatewayError: "Local API error",
+      dockGatewayClaude: "Both OpenAI and Anthropic: OpenAI uses /v1; Claude Code uses ANTHROPIC_BASE_URL + ANTHROPIC_AUTH_TOKEN + ANTHROPIC_MODEL.",
+      dockGatewayCopyClaude: "Copy Claude Code config",
+      dockGatewayAnthropic: "Anthropic",
+      dockGatewayModelsTitle: "Models",
+      dockCatalogLive: "Live catalog",
+      dockCatalogUpdated: "updated",
+      dockCatalogFailed: "Catalog refresh failed",
+      dockCatalogChecking: "Reading catalog",
+      dockCheckin: "Check in",
+      dockCheckinRunning: "Checking in…",
+      dockAutoCheckin: "Daily auto check-in",
+      dockAutoCheckinHint: "Claims Qoder's daily campaign benefit on the first connection of each day; availability is upstream-controlled.",
+      dockCheckinLast: "Last check-in",
+      dockCheckinClaimed: "claimed",
+      dockCheckinAlready: "already claimed today",
+      dockCheckinNone: "no campaign right now",
+      dockCheckinError: "check-in failed",
+      dockKeychain: "Authorize Keychain",
+      dockKeychainHint: "Waits for the macOS Keychain prompt; click “Always Allow” there and the lane reconnects.",
+      dockKeychainOk: "Keychain authorized — retrying the connection…",
       dockSignInQwen: "QwenWork desktop was detected, but its session has not been read yet. Open QwenWork, sign in, then refresh; this lane lists every tier your plan can route (paid lane).",
       dockSignInFirst: "Connect this client to discover its free models.",
       dockImport: "Use the desktop sign-in",
@@ -304,7 +232,7 @@ window.__ModuleLoader__.load({
       dockModelsHint: "Checked models appear in DSH's model picker.",
       dockDetected: "Detected",
       dockEnabledCount: "enabled",
-      dockDesktopOther: "The desktop app is signed in to the other edition; this lane can sign in separately in Settings.",
+      dockDesktopOther: "The desktop app is signed in to the other edition; this lane can sign in right here.",
       dockTest: "Test",
       dockTesting: "Testing…",
       dockTestOk: "connection ok",
@@ -317,63 +245,21 @@ window.__ModuleLoader__.load({
       dockInstallQwen: "QwenWork desktop app not found. Install and sign in to connect it.",
       dockLaneUnavailable: "This lane did not load; check that its entry is enabled in the plugin manager.",
       dockInstalledNoApp: "Desktop app not detected; using the existing session.",
-      dockChannels: "Supported: WorkBuddy (Global / CN), Qoder (Global / CN), QwenWork. Channels that are not installed are still listed, marked “not installed”.",       dockRepair: "Auto-repair",
+      dockChannels: "Supported: WorkBuddy (Global / CN), Qoder (Global / CN), QwenWork. Channels that are not installed are still listed, marked “not installed”.",
+      dockRepair: "Auto-repair",
       dockRepairing: "Repairing…",
       dockRepairRunning: "Repairing automatically, please wait…",
       dockRepairOk: "Repaired — the lane works again",
-      dockRepairFail: "Auto-repair did not finish",
-      dockRepairNoModel: "No local model available; tried the fixed ladder",     };
+      dockRepairFail: "Auto-repair did not finish",     };
     const L = typeof navigator !== "undefined" && /^zh/i.test(navigator.language || "") ? zh : en;
 
+    // Only the plugin page's update action still needs these; the dock panel
+    // owns its own stylesheet (dockCss) and the settings card is gone.
     const css = `
-      .wb-card{border:.5px solid var(--dsw-alias-border-l2,#dedee3);border-radius:var(--dsw-radius-panel,12px);background:var(--dsw-alias-bg-layer-1,#fff);overflow:hidden}
-      .wb-head{display:flex;align-items:center;gap:10px;width:100%;padding:14px 16px;border:0;background:transparent;color:inherit;font:inherit;text-align:left;cursor:pointer}
-      .wb-head:hover{background:var(--dsw-alias-interactive-bg-hover,#f1f1f3)}
-      .wb-title{font-size:14px;font-weight:600}
-      .wb-sub{color:var(--dsw-alias-label-secondary,#74747c);font-size:12px;margin-top:2px}
-      .wb-chev{margin-left:auto;color:var(--dsw-alias-label-tertiary,#9a9aa3);transition:transform .15s}
-      .wb-chev.wb-open{transform:rotate(90deg)}
-      .wb-tabs{display:flex;gap:4px;padding:3px;border-radius:var(--dsw-radius-md,8px);background:var(--dsw-alias-bg-layer-2,#f1f1f3);width:fit-content}
-      .wb-tab{display:flex;align-items:center;gap:6px;height:28px;padding:0 12px;border:0;border-radius:6px;background:transparent;color:var(--dsw-alias-label-secondary,#74747c);font:inherit;font-size:13px;cursor:pointer}
-      .wb-tab:hover{color:var(--dsw-alias-label-primary,#25252a)}
-      .wb-tab[aria-selected="true"]{background:var(--dsw-alias-bg-layer-1,#fff);color:var(--dsw-alias-label-primary,#25252a);box-shadow:0 .5px 2px rgba(0,0,0,.08)}
-      .wb-dot{width:7px;height:7px;border-radius:99px;background:var(--dsw-alias-label-tertiary,#9a9aa3);flex:none}
-      .wb-dot.wb-dot-on{background:var(--dsw-alias-state-success-primary,#2f9e44)}
-      .wb-dot.wb-dot-load{background:var(--dsw-alias-state-warning-primary,#d98416)}
-      .wb-body{padding:2px 16px 16px;display:flex;flex-direction:column;gap:14px}
-      .wb-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-      .wb-label{font-size:12px;font-weight:600;color:var(--dsw-alias-label-secondary,#74747c)}
-      .wb-badge{font-size:11px;padding:2px 8px;border-radius:99px;border:.5px solid var(--dsw-alias-border-l2,#dedee3);color:var(--dsw-alias-label-secondary,#74747c);white-space:nowrap}
-      .wb-badge.wb-good{color:var(--dsw-alias-state-business-primary,#4176e6);border-color:currentColor}
-      .wb-badge.wb-free{color:var(--dsw-alias-state-success-primary,#2f9e44);border-color:currentColor}
-      .wb-input,.wb-button{height:30px;padding:0 10px;color:var(--dsw-alias-label-primary,#25252a);background:var(--dsw-alias-bg-layer-1,#fff);border:.5px solid var(--dsw-alias-border-l4,#d4d6db);border-radius:var(--dsw-radius-md,8px);font:inherit;font-size:13px}
-      .wb-input{flex:1;min-width:160px}
       .wb-update-action{display:inline-flex;align-items:center;gap:8px;min-width:0}
       .wb-update-note{color:var(--dsw-alias-label-tertiary,#9a9aa3);font-size:12.5px;line-height:18px;white-space:nowrap}
       .wb-update-note-info{color:var(--dsw-alias-state-business-primary,#4176e6)}
       @media (max-width:720px){.wb-update-note{display:none}}
-      .wb-button{cursor:pointer;white-space:nowrap}
-      .wb-button:hover{background:var(--dsw-alias-interactive-bg-hover,#f1f1f3)}
-      .wb-button:disabled{opacity:.5;cursor:default}
-      .wb-button.wb-primary{background:var(--dsw-alias-state-business-primary,#4176e6);border-color:transparent;color:#fff}
-      .wb-button.wb-primary:hover{filter:brightness(1.05)}
-      .wb-note{font-size:11px;color:var(--dsw-alias-label-tertiary,#9a9aa3);line-height:1.5}
-      .wb-error{font-size:12px;color:var(--dsw-alias-state-error-primary,#bd4747)}
-      .wb-models{display:flex;flex-direction:column;gap:2px;max-height:280px;overflow:auto;border:.5px solid var(--dsw-alias-border-l2,#dedee3);border-radius:var(--dsw-radius-md,8px);padding:6px}
-      .wb-model{display:flex;align-items:center;gap:8px;padding:5px 8px;border-radius:6px;font-size:13px;flex-wrap:nowrap;min-width:0}
-      .wb-model:hover{background:var(--dsw-alias-interactive-bg-hover,#f1f1f3)}
-      .wb-model input{accent-color:var(--dsw-alias-state-business-primary,#4176e6);flex:none}
-      .wb-model-name{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-      .wb-model-id{flex:0 1 auto;min-width:0;max-width:38%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--dsw-alias-label-tertiary,#9a9aa3);font-size:11px}
-      .wb-model .wb-badge{flex:none}
-      .wb-quota{display:flex;flex-direction:column;gap:6px}
-      .wb-quota-row{display:flex;align-items:center;gap:8px;font-size:12px}
-      .wb-bar{flex:1;height:6px;border-radius:99px;background:var(--dsw-alias-border-l2,#dedee3);overflow:hidden}
-      .wb-bar span{display:block;height:100%;background:var(--dsw-alias-state-business-primary,#4176e6)}
-      .wb-check{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--dsw-alias-label-secondary,#74747c);cursor:pointer}
-      .wb-check input{accent-color:var(--dsw-alias-state-business-primary,#4176e6)}
-      .wb-link{color:var(--dsw-alias-state-business-primary,#4176e6);text-decoration:none;cursor:pointer}
-      @media(prefers-reduced-motion:reduce){.wb-chev{transition:none}}
     `;
 
     const timeText = (ms) => {
@@ -390,319 +276,6 @@ window.__ModuleLoader__.load({
     }
 
     const isStatus = (value) => typeof value === "object" && value !== null && !Array.isArray(value) && value.status === "ok"
-
-    /** One row of the model list: the toggle, the name, the id, and its badges. */
-    function modelRow(m, rowOptions) {
-      const { busy, setModelEnabled } = rowOptions
-      return h("label", { key: m.id, className: "wb-model" },
-        h("input", {
-          type: "checkbox",
-          checked: m.enabled !== false,
-          disabled: busy,
-          onChange: (e) => {
-            // The toggle names ONE model and its new state; it never sends a
-            // list derived from a snapshot of the page. A snapshot is stale
-            // the moment the catalog refreshes, and a complement computed from
-            // a stale one can disable every model but the one clicked.
-            void setModelEnabled(m.id, e.target.checked)
-          },
-        }),
-        h("span", { className: "wb-model-name", title: m.name }, m.name),
-        h("span", { className: "wb-model-id", title: m.id }, m.id),
-        m.free ? h("span", { className: "wb-badge wb-free" }, L.freeTag) : null,
-        m.rate ? h("span", { className: "wb-badge" }, `${L.rateTag} ${m.rate}`) : null,
-        m.rateUnknown ? h("span", { className: "wb-badge" }, "—") : null,
-        m.contextWindow ? h("span", { className: "wb-badge" }, `${L.ctxTag} ${ctxText(m.contextWindow)}`) : null)
-    }
-
-    /**
-     * One variant's section: sign-in, catalog, model toggles, quota.
-     *
-     * The status document carries both variants and belongs to the card
-     * shell, so switching tabs never refetches and never loses the other
-     * variant's data.
-     */
-    function VariantSection(props) {
-      const { provider, status, load, loading } = props
-      const [busy, setBusy] = React.useState(false)
-      const [notice, setNotice] = React.useState(null)
-      const [query, setQuery] = React.useState("")
-      const [login, setLogin] = React.useState(null)
-      const mounted = React.useRef(true)
-      React.useEffect(() => {
-        mounted.current = true
-        return () => { mounted.current = false }
-      }, [])
-
-      const variant = status?.variants?.[provider]
-
-      const post = React.useCallback(async (path, body, key) => {
-        setBusy(true)
-        setNotice(null)
-        try {
-          const res = await fetch(path, {
-            method: "POST",
-            headers: { "content-type": "application/json", "x-dsh-model-dock-key": key ?? "" },
-            body: JSON.stringify(body),
-          })
-          if (!res.ok) throw new Error(String(res.status))
-          await load()
-          return true
-        } catch {
-          setNotice(L.failed)
-          return false
-        } finally {
-          setBusy(false)
-        }
-      }, [load])
-
-      /** Begin the device-authorization flow and start polling for its outcome. */
-      const beginLogin = React.useCallback(async () => {
-        setBusy(true)
-        setNotice(null)
-        try {
-          const res = await fetch(LOGIN_PATH, {
-            method: "POST",
-            headers: { "content-type": "application/json", "x-dsh-model-dock-key": status?.loginKey ?? "" },
-            body: JSON.stringify({ action: "begin", provider }),
-          })
-          if (!res.ok) throw new Error(String(res.status))
-          const doc = await res.json()
-          if (!mounted.current) return
-          if (doc?.status === "pending" && doc.authUrl) setLogin({ url: doc.authUrl, state: doc.state })
-          else setNotice(doc?.error ?? L.failed)
-        } catch {
-          if (mounted.current) setNotice(L.failed)
-        } finally {
-          if (mounted.current) setBusy(false)
-        }
-      }, [provider, status])
-
-      /** Adopt the session the WorkBuddy desktop app is already signed in to. */
-      const importDesktop = React.useCallback(async () => {
-        setBusy(true)
-        setNotice(null)
-        try {
-          const res = await fetch(AUTH_PATH, {
-            method: "POST",
-            headers: { "content-type": "application/json", "x-dsh-model-dock-key": status?.authKey ?? "" },
-            body: JSON.stringify({ action: "import-desktop", provider }),
-          })
-          if (!res.ok) throw new Error(String(res.status))
-          const doc = await res.json()
-          if (!mounted.current) return
-          if (doc?.ok === true) await load()
-          else setNotice(doc?.error ?? L.failed)
-        } catch {
-          if (mounted.current) setNotice(L.failed)
-        } finally {
-          if (mounted.current) setBusy(false)
-        }
-      }, [provider, status, load])
-
-      /** Poll the pending attempt until the human finishes in the browser. */
-      React.useEffect(() => {
-        if (!login) return undefined
-        let cancelled = false
-        const timer = setInterval(async () => {
-          try {
-            const res = await fetch(LOGIN_PATH, {
-              method: "POST",
-              headers: { "content-type": "application/json", "x-dsh-model-dock-key": status?.loginKey ?? "" },
-              body: JSON.stringify({ action: "poll", provider, state: login.state }),
-            })
-            if (!res.ok) throw new Error(String(res.status))
-            const doc = await res.json()
-            if (cancelled || !mounted.current) return
-            if (doc?.status === "complete") {
-              setLogin(null)
-              await load()
-            } else if (doc?.status === "error") {
-              setLogin(null)
-              setNotice(doc.error ?? L.failed)
-            }
-          } catch {
-            // A transient poll failure is not a failed login: keep polling.
-          }
-        }, 2500)
-        return () => { cancelled = true; clearInterval(timer) }
-      }, [login, provider, status, load])
-
-      const auth = variant?.auth
-      const catalog = variant?.catalog
-      const models = Array.isArray(catalog?.models) ? catalog.models : []
-      const shown = query.trim() === "" ? models : models.filter((m) => `${m.name} ${m.id}`.toLowerCase().includes(query.trim().toLowerCase()))
-      // Both mutations name what they change, never a list derived from the
-      // page: the server owns the catalog and computes the rest.
-      const setModelEnabled = (model, enabled) => post(MODELS_PATH, { action: "set-model", provider, model, enabled }, status?.modelsKey)
-      const setAllEnabled = (enabled) => post(MODELS_PATH, { action: "set-all", provider, enabled }, status?.modelsKey)
-      const credits = variant?.credits
-      const creditAccounts = Array.isArray(credits?.accounts) ? credits.accounts : []
-      const creditTotal = credits?.totalSize ?? creditAccounts.reduce((sum, a) => sum + (Number(a.size) || 0), 0)
-
-      return h(React.Fragment, null,
-        h("div", null,
-          h("div", { className: "wb-row" },
-            h("span", { className: "wb-label" }, auth?.state === "signed-in" ? L.signedIn : L.signedOut),
-            h("span", { className: `wb-badge${auth?.state === "signed-in" ? " wb-good" : ""}` },
-              auth?.state === "signed-in" ? (auth.nickname ?? variant?.appName) : L.signedOut),
-            auth?.state === "signed-in"
-              ? h(React.Fragment, null,
-                  h("button", { type: "button", className: "wb-button", disabled: busy, onClick: () => void post(AUTH_PATH, { action: "logout", provider }, status.authKey) }, L.logout),
-                  // The desktop app re-signs in behind the plugin's back and
-                  // rotates its own session, so adopting that session again has
-                  // to stay reachable while signed in — otherwise a rotated
-                  // credential can only be replaced by signing out first.
-                  variant?.desktopAvailable === true
-                    ? h("button", { type: "button", className: "wb-button", disabled: busy, onClick: () => void importDesktop() }, L.importDesktop)
-                    : null)
-              : h(React.Fragment, null,
-                  h("button", { type: "button", className: "wb-button wb-primary", disabled: busy, onClick: () => void beginLogin() }, L.signIn),
-                  variant?.desktopAvailable === true
-                    ? h("button", { type: "button", className: "wb-button", disabled: busy, onClick: () => void importDesktop() }, L.importDesktop)
-                    : null)),
-          auth?.state === "signed-in" ? h("div", { className: "wb-note", style: { marginTop: 4 } },
-            [auth.domain ? `${L.domain}: ${auth.domain}` : null, auth.expiresAt ? ` · ${L.expires}: ${timeText(auth.expiresAt)}` : null].filter(Boolean).join("")) : null,
-          auth?.accountRestricted ? h("div", { className: "wb-error", style: { marginTop: 4 } },
-            L.accountRestricted,
-            h("div", { className: "wb-note", style: { marginTop: 2 } }, String(auth.accountRestricted))) : null,
-          auth?.sessionStale === true && !auth?.accountRestricted ? h("div", { className: "wb-error", style: { marginTop: 4 } }, L.sessionStale) : null,
-          auth?.state !== "signed-in" ? h("div", { className: "wb-note", style: { marginTop: 4 } }, L.signedOutHint) : null,
-          auth?.reason ? h("div", { className: "wb-error", style: { marginTop: 4 } }, auth.reason) : null,
-          login ? h("div", { className: "wb-row", style: { marginTop: 8 } },
-            h("span", { className: "wb-note" }, L.waiting),
-            h("a", { className: "wb-link", href: login.url, target: "_blank", rel: "noreferrer" }, L.openLogin)) : null),
-        variant?.auth?.state === "signed-in" ? h("div", null,
-          h("div", { className: "wb-row" },
-            h("span", { className: "wb-label" }, L.catalog),
-            h("span", { className: `wb-badge${catalog.source === "live" ? " wb-good" : ""}` },
-              catalog.source === "live" ? L.catalogLive : catalog.source === "saved" ? L.catalogSaved : L.catalogFallback,
-              catalog.fetchedAt ? ` · ${L.catalogUpdated} ${timeText(catalog.fetchedAt)}` : ""),
-            h("button", { type: "button", className: "wb-button", disabled: busy || loading, onClick: () => void post(MODELS_PATH, { action: "refresh", provider }, status.modelsKey) }, loading ? L.refreshing : L.refresh)),
-          catalog.error ? h("div", { className: "wb-error", style: { marginTop: 4 } }, L.catalogError + catalog.error) : null,
-          h("div", { className: "wb-row", style: { marginTop: 6 } },
-            h("label", { className: "wb-check" },
-              h("input", {
-                type: "checkbox",
-                checked: variant?.useMaximumContextWindow === true,
-                disabled: busy,
-                onChange: (e) => void post(MODELS_PATH, { action: "set-max-window", provider, enabled: e.target.checked }, status.modelsKey),
-              }),
-              h("span", null, L.maxWindow)),
-            h("span", { className: "wb-note" }, L.maxWindowHint)),
-          h("div", { className: "wb-row", style: { marginTop: 6 } },
-            h("label", { className: "wb-check" },
-              h("input", {
-                type: "checkbox",
-                checked: variant?.showPaidModels === true,
-                disabled: busy,
-                onChange: (e) => void post(MODELS_PATH, { action: "set-show-paid", provider, enabled: e.target.checked }, status.modelsKey),
-              }),
-              h("span", null, L.showPaid)),
-            h("span", { className: "wb-note" }, L.showPaidHint)),
-          h("div", { className: "wb-row", style: { marginTop: 10 } },
-            h("span", { className: "wb-label" }, L.models),
-            h("input", { className: "wb-input", style: { maxWidth: 180, marginLeft: "auto" }, placeholder: L.search, value: query, onChange: (e) => setQuery(e.target.value) })),
-          h("div", { className: "wb-note", style: { margin: "4px 0 6px" } }, L.modelsHint),
-          h("div", { className: "wb-models" },
-            shown.length === 0
-              ? h("div", { className: "wb-note" }, "—")
-              : shown.map((m) => modelRow(m, { busy, setModelEnabled }))),
-          h("div", { className: "wb-row", style: { marginTop: 6 } },
-            h("button", { type: "button", className: "wb-button", disabled: busy, onClick: () => void setAllEnabled(true) }, L.enableAll),
-            h("button", { type: "button", className: "wb-button", disabled: busy, onClick: () => void setAllEnabled(false) }, L.disableAll))) : null,
-        variant?.auth?.state === "signed-in" ? h("div", null,
-          h("div", { className: "wb-row" },
-            h("span", { className: "wb-label" }, L.credits),
-            variant?.creditsError ? h("span", { className: "wb-badge" }, L.creditsError + variant.creditsError) : null),
-          credits && creditAccounts.length > 0 ? h("div", { className: "wb-quota", style: { marginTop: 6 } },
-            creditAccounts.map((a, i) => {
-              const size = Number(a.size) || 0
-              const remain = Number(a.remain) || 0
-              const pct = size > 0 ? Math.max(0, Math.min(100, Math.round((remain / size) * 100))) : 0
-              return h("div", { key: `${a.packageName}-${i}`, className: "wb-quota-row" },
-                h("span", { style: { minWidth: 96, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, title: a.packageName }, a.packageName),
-                h("span", { className: "wb-bar" }, h("span", { style: { width: `${pct}%` } })),
-                h("span", { style: { whiteSpace: "nowrap" } }, `${remain} / ${size}`),
-                a.packageEndTime ? h("span", { className: "wb-note" }, `${L.creditsEnd} ${a.packageEndTime}`) : null)
-            }),
-            creditTotal > 0 ? h("div", { className: "wb-note" }, `${L.creditsTotal}: ${creditTotal}`) : null)
-            : credits ? h("div", { className: "wb-note" }, L.creditsNone) : null) : null,
-        notice ? h("div", { className: "wb-error" }, notice) : null)
-    }
-
-    /**
-     * The one card for both WorkBuddy editions.
-     *
-     * One panel with a variant tab, the way the Qoder connector does it: the
-     * two editions share a card, a header and a status poll, and only the
-     * section under the active tab differs.
-     */
-    function WorkBuddyCard() {
-      const [open, setOpen] = React.useState(false)
-      const [active, setActive] = React.useState("safe_workbuddy-global")
-      const [status, setStatus] = React.useState(null)
-      const [loadError, setLoadError] = React.useState(null)
-      const [loading, setLoading] = React.useState(false)
-      const mounted = React.useRef(true)
-      React.useEffect(() => {
-        mounted.current = true
-        return () => { mounted.current = false }
-      }, [])
-
-      const load = React.useCallback(async () => {
-        setLoading(true)
-        try {
-          const res = await fetch(STATUS_PATH, { headers: { accept: "application/json" } })
-          if (!res.ok) throw new Error(String(res.status))
-          const doc = await res.json()
-          if (!mounted.current) return
-          if (isStatus(doc)) { setStatus(doc); setLoadError(null) }
-          else setLoadError(L.errorLoad)
-        } catch {
-          if (mounted.current) setLoadError(L.errorLoad)
-        } finally {
-          if (mounted.current) setLoading(false)
-        }
-      }, [])
-
-      // The status is cheap (it reads the cached catalog and the stored
-      // credential — never the upstream), and the collapsed header shows the
-      // sign-in state, so it is loaded whether the card is open or not.
-      React.useEffect(() => {
-        void load()
-        const timer = setInterval(() => void load(), 60_000)
-        return () => clearInterval(timer)
-      }, [load])
-
-      const variant = status?.variants?.[active]
-      /** A tab's dot: green when that edition is signed in, amber while loading. */
-      const dotClass = v => (v?.auth?.state === "signed-in" ? "wb-dot wb-dot-on" : status === null ? "wb-dot wb-dot-load" : "wb-dot")
-
-      return h("div", { className: "wb-card" },
-        h("style", null, css),
-        h("button", { type: "button", className: "wb-head", onClick: () => setOpen((v) => !v), "aria-expanded": open },
-          h("span", null,
-            h("span", { className: "wb-title" }, L.title),
-            h("div", { className: "wb-sub" }, L.subtitle)),
-          variant?.auth?.state === "signed-in"
-            ? h("span", { className: "wb-badge wb-good" }, variant.auth.nickname ?? variant.displayName)
-            : status
-              ? h("span", { className: "wb-badge" }, L.signedOut)
-              : null,
-          h("span", { className: `wb-chev${open ? " wb-open" : ""}`, "aria-hidden": "true" }, "›")),
-        open ? h("div", { className: "wb-body" },
-          h("div", { className: "wb-tabs", role: "tablist", "aria-label": L.title },
-            h("button", { type: "button", role: "tab", className: "wb-tab", "aria-selected": active === "safe_workbuddy-global", onClick: () => setActive("safe_workbuddy-global") },
-              h("span", { className: dotClass(status?.variants?.["safe_workbuddy-global"]), "aria-hidden": "true" }),
-              h("span", null, L.tabGlobal)),
-            h("button", { type: "button", role: "tab", className: "wb-tab", "aria-selected": active === "safe_workbuddy", onClick: () => setActive("safe_workbuddy") },
-              h("span", { className: dotClass(status?.variants?.["safe_workbuddy"]), "aria-hidden": "true" }),
-              h("span", null, L.tabCN))),
-          loadError && !status ? h("div", { className: "wb-error" }, loadError, " ", h("button", { type: "button", className: "wb-button", onClick: () => void load() }, L.retry)) : null,
-          status ? h(VariantSection, { provider: active, status, load, loading }) : h("div", { className: "wb-note" }, loading ? "…" : "—")) : null)
-    }
-
 
     /** The sidebar entry id; the matching `main` key opens this panel. */
     const PANEL_ID = "model-dock";
@@ -796,6 +369,14 @@ window.__ModuleLoader__.load({
       @keyframes md-shimmer{from{background-position:120% 0}to{background-position:-120% 0}}
       @media (prefers-reduced-motion:reduce){.md-skeleton{animation:none}}
       @media (max-width:720px){.md-page{padding:52px 16px 32px}.md-stats{grid-template-columns:1fr 1fr}}
+      .md-label{font-size:12px;font-weight:600;color:var(--dsw-alias-label-secondary,#6b7078)}
+      .md-search{height:30px;flex:1;min-width:120px;max-width:260px;padding:0 8px;border-radius:8px;border:.5px solid var(--dsw-alias-border-l4,#d4d6db);background:var(--dsw-alias-bg-layer-1,#fff);color:inherit;font:inherit;font-size:13px}
+      .md-lane-tools{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+      .md-quota{display:flex;flex-direction:column;gap:6px}
+      .md-quota-row{display:flex;align-items:center;gap:8px;font-size:12px}
+      .md-bar{flex:1;height:6px;border-radius:99px;background:var(--dsw-alias-border-l2,#e3e4e8);overflow:hidden}
+      .md-bar span{display:block;height:100%;background:var(--dsw-alias-brand-primary,#3b5bff)}
+      .md-link{color:var(--dsw-alias-brand-primary,#3b5bff);text-decoration:none}
     `;
 
     /** One lane's free-model list; paid rows appear only when asked for. */
@@ -840,6 +421,10 @@ window.__ModuleLoader__.load({
       const [repair, setRepair] = React.useState(null);
       const [gatewayKeyVisible, setGatewayKeyVisible] = React.useState(false);
       const [gatewayPort, setGatewayPort] = React.useState("");
+      /** Pending device-authorization attempts, per lane id: {url, state}. */
+      const [logins, setLogins] = React.useState({});
+      /** Per-lane model search text; the panel is the only model console now. */
+      const [laneQuery, setLaneQuery] = React.useState({});
       const alive = React.useRef(true);
       React.useEffect(() => {
         alive.current = true;
@@ -942,6 +527,70 @@ window.__ModuleLoader__.load({
           setNotice(text);
         }
       }, []);
+
+      /**
+       * Begin the device-authorization flow for one WorkBuddy lane and keep
+       * the pending attempt in `logins` so the lane can show the auth link.
+       * This used to live in the settings card; the panel is now the only
+       * place a lane can sign in from the browser.
+       */
+      const beginLogin = React.useCallback(async (provider) => {
+        setBusy(true);
+        setNotice(null);
+        try {
+          const res = await fetch(LOGIN_PATH, {
+            method: "POST",
+            headers: { "content-type": "application/json", "x-dsh-model-dock-key": status?.loginKey ?? "" },
+            body: JSON.stringify({ action: "begin", provider }),
+          });
+          if (!res.ok) throw new Error(String(res.status));
+          const doc = await res.json();
+          if (!alive.current) return;
+          if (doc?.status === "pending" && doc.authUrl) {
+            setLogins((current) => ({ ...current, [provider]: { url: doc.authUrl, state: doc.state } }));
+          } else {
+            setNotice(typeof doc?.error === "string" && doc.error !== "" ? doc.error : L.dockFailed);
+          }
+        } catch {
+          if (alive.current) setNotice(L.dockFailed);
+        } finally {
+          if (alive.current) setBusy(false);
+        }
+      }, [status]);
+
+      /** Poll every pending authorization until the human finishes in the browser. */
+      React.useEffect(() => {
+        if (Object.keys(logins).length === 0) return undefined;
+        let cancelled = false;
+        const timer = setInterval(async () => {
+          for (const [provider, attempt] of Object.entries(logins)) {
+            try {
+              const res = await fetch(LOGIN_PATH, {
+                method: "POST",
+                headers: { "content-type": "application/json", "x-dsh-model-dock-key": status?.loginKey ?? "" },
+                body: JSON.stringify({ action: "poll", provider, state: attempt.state }),
+              });
+              if (!res.ok) continue;
+              const doc = await res.json();
+              if (cancelled || !alive.current) return;
+              if (doc?.status === "complete" || doc?.status === "error") {
+                setLogins((current) => {
+                  const next = { ...current };
+                  delete next[provider];
+                  return next;
+                });
+                if (doc.status === "error") {
+                  setNotice(typeof doc.error === "string" && doc.error !== "" ? doc.error : L.dockFailed);
+                }
+                await load(true);
+              }
+            } catch {
+              // A transient poll failure is not a failed login: keep polling.
+            }
+          }
+        }, 2500);
+        return () => { cancelled = true; clearInterval(timer); };
+      }, [logins, status, load]);
 
       const variants = status?.variants ?? {};
       const lanes = DOCK_LANES.map((id) => ({ id, lane: variants[id] })).filter((entry) => entry.lane !== undefined);
@@ -1213,6 +862,12 @@ window.__ModuleLoader__.load({
         const laneFree = laneModels.filter((model) => model.free === true);
         const showPaid = lane.showPaidModels === true;
         const shown = lane.allModels === true ? laneModels : (showPaid ? laneModels : laneFree);
+        const query = (laneQuery[entry.id] ?? "").trim().toLowerCase();
+        const listed = query === "" ? shown : shown.filter((model) => `${model.name} ${model.id}`.toLowerCase().includes(query));
+        // Quota lives on the WorkBuddy variants only; precompute so the lane
+        // body stays a plain element tree.
+        const creditAccounts = entry.id.startsWith("safe_workbuddy") && Array.isArray(lane.credits?.accounts) ? lane.credits.accounts : [];
+        const creditTotal = lane.credits?.totalSize ?? creditAccounts.reduce((sum, a) => sum + (Number(a.size) || 0), 0);
         // Qoder now exposes paid models behind the same switch as WorkBuddy; test
         // what the picker actually shows, not only the free subset.
         const testable = lane.allModels === true ? shown : entry.id === "qoder" ? shown : laneFree;
@@ -1272,6 +927,15 @@ window.__ModuleLoader__.load({
                     : L.dockCatalogChecking)
             : null,
           auth.sessionStale === true ? h("div", { className: "md-error" }, L.dockStale) : null,
+          lane.catalog !== undefined && entry.id !== "qoder" && lane.catalog.error !== undefined
+            ? h("div", { className: "md-error" }, `${L.dockCatalogFailed} · ${lane.catalog.error}`)
+            : null,
+          auth.accountRestricted ? h("div", { className: "md-error" }, L.accountRestricted,
+            h("div", { className: "md-note", style: { marginTop: 2 } }, String(auth.accountRestricted))) : null,
+          logins[entry.id] !== undefined
+            ? h("div", { className: "md-meta" }, `${L.waiting} `,
+                h("a", { className: "md-link", href: logins[entry.id].url, target: "_blank", rel: "noreferrer" }, L.openLogin))
+            : null,
           typeof auth.reason === "string" && auth.reason !== "" ? h("div", { className: "md-error" }, auth.reason) : null,
           lane.error !== undefined && lane.error !== null ? h("div", { className: "md-error" }, String(lane.error)) : null,
           lane.desktopError !== undefined && lane.desktopError !== null ? h("div", { className: "md-error" }, String(lane.desktopError)) : null,
@@ -1287,15 +951,51 @@ window.__ModuleLoader__.load({
                   onClick: () => void startRepair(entry.id),
                 }, repair?.provider === entry.id && repair.running === true ? L.dockRepairing : L.dockRepair))
             : null,
+          signedIn && laneModels.length > 0
+            ? h("div", { className: "md-lane-tools" },
+                h("input", {
+                  className: "md-search",
+                  placeholder: L.search,
+                  value: laneQuery[entry.id] ?? "",
+                  onChange: (event) => setLaneQuery((current) => ({ ...current, [entry.id]: event.target.value })),
+                }),
+                lane.readOnly === true
+                  ? null
+                  : h(React.Fragment, null,
+                      h("button", { type: "button", className: "md-btn", disabled: busy, onClick: () => void post(MODELS_PATH, { action: "set-all", provider: entry.id, enabled: true }, status?.modelsKey) }, L.enableAll),
+                      h("button", { type: "button", className: "md-btn", disabled: busy, onClick: () => void post(MODELS_PATH, { action: "set-all", provider: entry.id, enabled: false }, status?.modelsKey) }, L.disableAll)))
+            : null,
           signedIn
             ? h("div", { className: "md-models" },
-                shown.length === 0
-                  ? h("div", { className: "md-note", style: { padding: "6px 8px" } }, L.dockNoFree)
-                  : shown.map((model) => dockModelRow(model, {
+                listed.length === 0
+                  ? h("div", { className: "md-note", style: { padding: "6px 8px" } }, query === "" ? L.dockNoFree : "—")
+                  : listed.map((model) => dockModelRow(model, {
                       busy,
                       readOnly: lane.readOnly === true,
                       onToggle: (id, enabled) => void post(MODELS_PATH, { action: "set-model", provider: entry.id, model: id, enabled }, status?.modelsKey),
                     })))
+            : null,
+          signedIn && entry.id.startsWith("safe_workbuddy")
+            ? h("div", { style: { marginTop: 8, display: "flex", flexDirection: "column", gap: 6 } },
+                h("div", { className: "md-lane-head" },
+                  h("span", { className: "md-label" }, L.credits),
+                  lane.creditsError ? h("span", { className: "md-chip" }, `${L.creditsError}${lane.creditsError}`) : null),
+                lane.credits === undefined || lane.credits === null
+                  ? null
+                  : creditAccounts.length === 0
+                    ? h("div", { className: "md-note" }, L.creditsNone)
+                    : h("div", { className: "md-quota" },
+                        creditAccounts.map((account, index) => {
+                          const size = Number(account.size) || 0;
+                          const remain = Number(account.remain) || 0;
+                          const pct = size > 0 ? Math.max(0, Math.min(100, Math.round((remain / size) * 100))) : 0;
+                          return h("div", { key: `${account.packageName}-${index}`, className: "md-quota-row" },
+                            h("span", { style: { minWidth: 96, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, title: account.packageName }, account.packageName),
+                            h("span", { className: "md-bar" }, h("span", { style: { width: `${pct}%` } })),
+                            h("span", { style: { whiteSpace: "nowrap" } }, `${remain} / ${size}`),
+                            account.packageEndTime ? h("span", { className: "md-note" }, `${L.creditsEnd} ${account.packageEndTime}`) : null);
+                        }),
+                        creditTotal > 0 ? h("div", { className: "md-note" }, `${L.creditsTotal}: ${creditTotal}`) : null))
             : null,
           h("div", { className: "md-lane-actions" },
             signedIn
@@ -1363,9 +1063,12 @@ window.__ModuleLoader__.load({
                   onClick: () => void authorizeKeychain(entry.id),
                 }, L.dockKeychain)
               : null,
+            !signedIn && entry.id.startsWith("safe_workbuddy")
+              ? h("button", { type: "button", className: "md-btn md-primary", disabled: busy, onClick: () => void beginLogin(entry.id) }, L.signIn)
+              : null,
             (!signedIn || auth.sessionStale === true) && lane.installed === true
               && (entry.id === "qoder" || desktop?.region === undefined || desktop.region === lane.region)
-              ? h("button", { type: "button", className: "md-btn md-primary", disabled: busy, onClick: () => void post(AUTH_PATH, { action: "import-desktop", provider: entry.id }, status?.authKey) }, L.dockImport)
+              ? h("button", { type: "button", className: entry.id.startsWith("safe_workbuddy") ? "md-btn" : "md-btn md-primary", disabled: busy, onClick: () => void post(AUTH_PATH, { action: "import-desktop", provider: entry.id }, status?.authKey) }, L.dockImport)
               : null,
             !signedIn && entry.id.startsWith("safe_workbuddy")
               && desktop?.region !== undefined && desktop.region !== lane.region
@@ -1390,6 +1093,19 @@ window.__ModuleLoader__.load({
                     onChange: (event) => void post(MODELS_PATH, { action: "set-show-paid", provider: entry.id, enabled: event.target.checked }, status?.modelsKey),
                   }),
                   h("span", null, L.dockShowAll))
+              : null,
+            signedIn && entry.id.startsWith("safe_workbuddy")
+              ? h("label", { className: "md-check", title: L.maxWindowHint },
+                  h("input", {
+                    type: "checkbox",
+                    checked: lane.useMaximumContextWindow === true,
+                    disabled: busy,
+                    onChange: (event) => void post(MODELS_PATH, { action: "set-max-window", provider: entry.id, enabled: event.target.checked }, status?.modelsKey),
+                  }),
+                  h("span", null, L.maxWindow))
+              : null,
+            signedIn && entry.id.startsWith("safe_workbuddy")
+              ? h("button", { type: "button", className: "md-btn", disabled: busy, onClick: () => void post(AUTH_PATH, { action: "logout", provider: entry.id }, status?.authKey) }, L.logout)
               : null),
           signedIn
             ? h(React.Fragment, null,
@@ -1527,25 +1243,6 @@ window.__ModuleLoader__.load({
           h("p", { className: "md-foot" }, L.dockFoot)));
     }
 
-    /**
-     * Join the shared 《插件设置》 block with the same rendezvous protocol the
-     * sibling connect plugins use: wait for the host's `settings.section`,
-     * attach to the existing container when one is registered, otherwise
-     * register it (falling back to attaching when a sibling wins the race).
-     */
-    const SHARED_SECTION_SLOT = "settings.section"
-    const SHARED_SECTION_ID = "plugin-settings"
-    const SHARED_SECTION_ORDER = 900
-    const SHARED_ITEM_SLOT = "plugin-settings.item"
-    const SHARED_ITEM_ID = "dsh-model-dock"
-    const SHARED_SECTION_LABEL = "插件设置"
-
-    function PluginSettingsSection(props) {
-      return h("ul", {
-        style: { display: "flex", flexDirection: "column", gap: 6, padding: 0, listStyle: "none" },
-      }, props.renderSlot(SHARED_ITEM_SLOT, {}))
-    }
-
     /** The package name this card belongs to, as the plugin page reports it. */
     const PACKAGE_NAME = "dsh-model-dock";
 
@@ -1647,6 +1344,9 @@ window.__ModuleLoader__.load({
       // Matching both keeps this action reading as part of the page.
       const behind = state === "behind";
       return h("span", { className: "wb-update-action" },
+        // The settings card used to inject this stylesheet; the plugin page
+        // is the only surface left that needs it.
+        h("style", null, css),
         h("button", {
           type: "button",
           style: {
@@ -1725,58 +1425,22 @@ window.__ModuleLoader__.load({
         note("sidebar", error)
       }
 
+      // The plugin page's per-package action row. The settings card is gone:
+      // the dock panel is the single console for every lane, so nothing else
+      // registers into the host's settings page anymore.
       try {
-        ctx.slots.inject(SHARED_SECTION_SLOT, () => {
-          try {
-            let disposeContainer
-            if (!ctx.slots.entries(SHARED_SECTION_SLOT).some((entry) => entry.options?.id === SHARED_SECTION_ID)) {
-              try {
-                disposeContainer = ctx.slots.register({
-                  name: SHARED_SECTION_SLOT,
-                  id: SHARED_SECTION_ID,
-                  order: SHARED_SECTION_ORDER,
-                  label: () => SHARED_SECTION_LABEL,
-                  children: { [SHARED_ITEM_SLOT]: { kind: "list", scope: "root" } },
-                }, PluginSettingsSection)
-              } catch (error) {
-                console.error("[dsh-model-dock] shared plugin-settings block lost the race; attaching to the winner:", error)
-                note("container", error)
-              }
-            }
-            const disposeItem = ctx.slots.inject(SHARED_ITEM_SLOT, () => ctx.slots.register({
-              name: SHARED_ITEM_SLOT,
-              id: SHARED_ITEM_ID,
-              order: 50,
-            }, () => h(WorkBuddyCard)))
-            return () => {
-              disposeItem()
-              disposeContainer?.()
-            }
-          } catch (error) {
-            console.error("[dsh-model-dock] could not register the settings item:", error)
-            note("section-inject", error)
-          }
-        })
-        // The plugin page's per-package action row. Registered separately and
-        // defensively: a host without this slot (an older page, or a surface
-        // that never opens the page) must still get the settings card above.
-        try {
-          const manager = ctx.get("remote.pluginManager")
-          const disposeActions = ctx.slots.inject("plugins.detail.actions", () => ctx.slots.register({
-            name: "plugins.detail.actions",
-            id: `${PACKAGE_NAME}-update`,
-            order: 10,
-          }, (props) => h(UpdateActions, { ...props, L, manager })))
-          ctx.effect(() => () => {
-            disposeActions?.()
-          }, "dsh-model-dock: plugin page actions")
-        } catch (error) {
-          console.error("[dsh-model-dock] could not register the plugin page actions:", error)
-          note("detail-actions", error)
-        }
+        const manager = ctx.get("remote.pluginManager")
+        const disposeActions = ctx.slots.inject("plugins.detail.actions", () => ctx.slots.register({
+          name: "plugins.detail.actions",
+          id: `${PACKAGE_NAME}-update`,
+          order: 10,
+        }, (props) => h(UpdateActions, { ...props, L, manager })))
+        ctx.effect(() => () => {
+          disposeActions?.()
+        }, "dsh-model-dock: plugin page actions")
       } catch (error) {
-        console.error("[dsh-model-dock] could not register the settings card:", error)
-        note("apply", error)
+        console.error("[dsh-model-dock] could not register the plugin page actions:", error)
+        note("detail-actions", error)
       }
     }
 
