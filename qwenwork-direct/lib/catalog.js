@@ -145,6 +145,7 @@ export function normalizeMode(mode) {
     id: key,
     // 有些宿主（pi 的选择器）只渲染 id；`flash` 历史上对外叫 `qwen3.8-flash`，
     // 保留这个别名，已持久化的模型选择不会失效（请求侧由 normalizeModelKey 换回 key）。
+    // 别名可能被上游真 key 占掉，`releaseDisplayAliases()` 负责让它让位。
     displayNameId: DISPLAY_NAME_IDS[key],
     shortName: name,
     ...(description === undefined ? {} : { description }),
@@ -162,10 +163,58 @@ export function normalizeMode(mode) {
 }
 
 /**
+ * 让历史别名给上游真模型让位。
+ *
+ * `DISPLAY_NAME_IDS` 只是兼容层：`flash` 对外曾叫 `qwen3.8-flash`，改名后已
+ * 持久化的选择仍要能解析。代价是「旧名」成了保留字——一旦上游真的发布了这个
+ * key（2026-11-16 实测：catalog 里同时有 `flash`「标准」和字面量
+ * `qwen3.8-flash`「Qwen3.8-Flash」，两者倍率都是 x0.1），两个条目就映射成同一个
+ * 对外 id，DSH 的 `listModels()` 判 `INVALID_CATALOG`，整个「千问办公」分组从
+ * 模型选择器里消失（面板仍显示已连接，因为目录本身是好的）。
+ *
+ * 规则：上游既然下发了这个 key，它就是这个 id 的主人，别名让位（保留上游 key
+ * 作对外 id）；旧会话里指向该 id 的选择改为命中真模型，请求仍能发出去。
+ *
+ * @param {object[]} models 归一化后的模型
+ * @returns {object[]} 同一个数组（原地清掉被占用的 `displayNameId`）
+ */
+export function releaseDisplayAliases(models) {
+  const upstreamKeys = new Set(models.map((model) => model.id));
+  for (const model of models) {
+    const alias = model.displayNameId;
+    if (alias !== undefined && alias !== model.id && upstreamKeys.has(alias)) {
+      delete model.displayNameId;
+    }
+  }
+  return models;
+}
+
+/**
+ * 按对外 id 去重，第一条胜出。
+ *
+ * 上游重复下发同一个 key（或别的撞车）不该让整条路由被 DSH 判无效：目录顺序里
+ * 默认模型在前，保留第一条最接近「上游想让你看到的那个」。
+ *
+ * @param {object[]} models
+ * @returns {object[]}
+ */
+export function dedupeModelIds(models) {
+  const taken = new Set();
+  const unique = [];
+  for (const model of models) {
+    const id = model.displayNameId ?? model.id;
+    if (taken.has(id)) continue;
+    taken.add(id);
+    unique.push(model);
+  }
+  return unique;
+}
+
+/**
  * 解析一条 `chat-modes` 响应。
  *
  * @param {any} payload
- * @returns {object[]} 归一化后的模型列表（保持上游顺序，默认模型在前）
+ * @returns {object[]} 归一化后的模型列表（保持上游顺序，默认模型在前，对外 id 唯一）
  */
 export function normalizeChatModes(payload) {
   const catalog = payload?.catalog;
@@ -180,7 +229,7 @@ export function normalizeChatModes(payload) {
   if (models.length === 0) {
     throw new Error('千问办公模型目录为空');
   }
-  return models;
+  return dedupeModelIds(releaseDisplayAliases(models));
 }
 
 /**

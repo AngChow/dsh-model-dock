@@ -19,7 +19,7 @@ import { randomBytes } from 'node:crypto'
 import { createServer } from 'node:http'
 import { createChatShimHandler } from './lib/chat-shim.js'
 import { FALLBACK_QWENWORK_MODELS, formatRate } from './lib/models.js'
-import { fetchChatModesCatalog } from './lib/catalog.js'
+import { fetchChatModesCatalog, dedupeModelIds } from './lib/catalog.js'
 import { MODEL_IDENTITIES, PROVIDER_IDS } from '../lib/ids.js'
 import { readCredential, diagnoseDesktop, lastCredentialFailure } from '../qwenwork/desktop-auth.js'
 import { createWorkBuddyAdapter } from '../lib/adapter.js'
@@ -93,7 +93,7 @@ export async function apply(ctx) {
     globalThis.__dshModelDockQwenLane = {
       provider: PROVIDER_IDS.qwenwork,
       displayName: '千问办公',
-      models: () => state.models.map(model => ({
+      models: () => dedupeModelIds(state.models).map(model => ({
         id: model.displayNameId ?? model.id,
         name: model.shortName ?? model.displayNameId ?? model.id,
         contextWindow: model.contextWindow,
@@ -139,7 +139,10 @@ export async function apply(ctx) {
    * 选择器立刻跟着变；倍率来自上游 `price_factor`，不再写死。
    */
   const catalog = {
-    current: () => state.models.map(model => ({
+    // `dedupeModelIds` 是最后一道保险：DSH 的 `listModels()` 见到重复 id 会判
+    // `INVALID_CATALOG`，把整条路由从选择器里摘掉（2026-11-16 就是这么丢的
+    // 千问办公分组）。实时目录那侧已经去过重，这里再兜一次，代价只有 13 次比较。
+    current: () => dedupeModelIds(state.models).map(model => ({
       id: model.displayNameId ?? model.id,
       name: model.shortName ?? model.displayNameId ?? model.id,
       contextWindow: model.contextWindow,

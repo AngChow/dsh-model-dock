@@ -28,6 +28,11 @@ export const QWENWORK_PROVIDER = 'qwenwork';
  * 已选中它的用户把该 id 持久化了下来。换回上游 key 会让这些选择失效，所以
  * 保留别名：选择器对外仍叫 `qwen3.8-flash`，请求侧由 `normalizeModelKey()`
  * 换回 `flash`。新增模型默认不设别名（id 就是上游 key）。
+ *
+ * ⚠️ 别名只是兼容层，**上游真 key 优先**：若实时目录里真的出现了 key 为
+ * `qwen3.8-flash` 的模型（2026-11-16 起就是这样），`catalog.js` 的
+ * `releaseDisplayAliases()` 会让 `flash` 退回 `flash` 作对外 id。否则两条目录
+ * 撞成同一个 id，DSH 判 `INVALID_CATALOG`，整个千问办公分组从选择器消失。
  */
 export const DISPLAY_NAME_IDS = Object.freeze({
   flash: 'qwen3.8-flash',
