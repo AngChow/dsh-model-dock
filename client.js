@@ -1247,6 +1247,24 @@ window.__ModuleLoader__.load({
     const PACKAGE_NAME = "dsh-model-dock";
 
     /**
+     * The dock console embedded on this bundle's Plugins detail page
+     * (`plugins.bundle.config`, the official in-page configuration seat).
+     * The sidebar panel stays the primary console; this is the same DockPanel
+     * with page-flow chrome: no full-height scroll box, no top clearance for
+     * the shell overlays, and no duplicate hero title (the page draws its own).
+     */
+    function DockBundleConfig(props) {
+      if (!props || props.view !== "page") return null;
+      return h("div", { className: "md-embedded" },
+        h("style", null, `
+          .md-embedded .md-page{height:auto;overflow:visible;padding:0;background:transparent}
+          .md-embedded .md-wrap{max-width:none;margin:0}
+          .md-embedded .md-hero .md-logo,.md-embedded .md-hero .md-h1,.md-embedded .md-hero .md-sub{display:none}
+        `),
+        h(DockPanel));
+    }
+
+    /**
      * The per-process control key for the update route.
      *
      * Read from the status document, the same place `authKey` and `modelsKey`
@@ -1427,7 +1445,8 @@ window.__ModuleLoader__.load({
 
       // The plugin page's per-package action row. The settings card is gone:
       // the dock panel is the single console for every lane, so nothing else
-      // registers into the host's settings page anymore.
+      // registers into the host's settings page anymore. The same console is
+      // also embedded on this bundle's detail page via plugins.bundle.config.
       try {
         const manager = ctx.get("remote.pluginManager")
         const disposeActions = ctx.slots.inject("plugins.detail.actions", () => ctx.slots.register({
@@ -1435,8 +1454,13 @@ window.__ModuleLoader__.load({
           id: `${PACKAGE_NAME}-update`,
           order: 10,
         }, (props) => h(UpdateActions, { ...props, L, manager })))
+        const disposeBundleConfig = ctx.slots.inject("plugins.bundle.config", () => ctx.slots.register({
+          name: "plugins.bundle.config",
+          key: PACKAGE_NAME,
+        }, DockBundleConfig))
         ctx.effect(() => () => {
           disposeActions?.()
+          disposeBundleConfig?.()
         }, "dsh-model-dock: plugin page actions")
       } catch (error) {
         console.error("[dsh-model-dock] could not register the plugin page actions:", error)
