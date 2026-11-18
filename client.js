@@ -277,9 +277,6 @@ window.__ModuleLoader__.load({
 
     const isStatus = (value) => typeof value === "object" && value !== null && !Array.isArray(value) && value.status === "ok"
 
-    /** The sidebar entry id; the matching `main` key opens this panel. */
-    const PANEL_ID = "model-dock";
-    const PANEL_ORDER = 15;
     /** Lane order in the panel: international first, then CN. */
     const DOCK_LANES = ["safe_workbuddy-global", "safe_workbuddy"];
 
@@ -406,9 +403,9 @@ window.__ModuleLoader__.load({
     }
 
     /**
-     * The left-rail console: every known desktop client, the free models each
-     * one currently exposes, and the two things a user actually does here —
-     * connect the client, and choose which models DSH offers.
+     * The dock console: every known desktop client, the free models each one
+     * currently exposes, and the two things a user actually does here — connect
+     * the client, and choose which models DSH offers.
      */
     function DockPanel() {
       const [status, setStatus] = React.useState(null);
@@ -1249,7 +1246,8 @@ window.__ModuleLoader__.load({
     /**
      * The dock console embedded on this bundle's Plugins detail page
      * (`plugins.bundle.config`, the official in-page configuration seat).
-     * The sidebar panel stays the primary console; this is the same DockPanel
+     * Since 0.8.14 this is the console's only home — the left-rail entry and
+     * its `main` panel were removed, so the page renders the same DockPanel
      * with page-flow chrome: no full-height scroll box, no top clearance for
      * the shell overlays, and no duplicate hero title (the page draws its own).
      */
@@ -1420,29 +1418,6 @@ window.__ModuleLoader__.load({
     const inject = ["slots", "remote.pluginManager"]
 
     function apply(ctx) {
-      // The left-rail console. The icon id is also the `main` key, so the
-      // sidebar button and the panel it opens are one registration concept:
-      // the shell owns the button, and this module owns what it shows.
-      try {
-        const disposeIcon = ctx.slots.inject("sidebar.panellist", () => ctx.slots.register({
-          name: "sidebar.panellist",
-          id: PANEL_ID,
-          order: PANEL_ORDER,
-          label: () => L.panel,
-        }, DockIcon))
-        const disposePanel = ctx.slots.inject("main", () => ctx.slots.register({
-          name: "main",
-          key: PANEL_ID,
-        }, DockPanel))
-        ctx.effect(() => () => {
-          try { disposePanel?.(); } catch (error) { note("panel-dispose", error); }
-          try { disposeIcon?.(); } catch (error) { note("icon-dispose", error); }
-        }, "dsh-model-dock: sidebar console")
-      } catch (error) {
-        console.error("[dsh-model-dock] could not register the sidebar console:", error)
-        note("sidebar", error)
-      }
-
       // The plugin page's per-package action row. The settings card is gone:
       // the dock panel is the single console for every lane, so nothing else
       // registers into the host's settings page anymore. The same console is
